@@ -1,0 +1,126 @@
+<div class="container mt-5 mb-5">
+
+    <!-- TÍTULO -->
+    <div class="text-center mb-4">
+        <h2 class="fw-bold text-primary">Agendar Cita</h2>
+        <p class="text-muted">
+            Completa el siguiente formulario para solicitar una cita médica
+        </p>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+
+            <div class="card shadow-sm p-4">
+
+                <!-- FORMULARIO -->
+                <form name="formCita"
+                      ng-submit="agendarCita()"
+                      ng-if="!citaConfirmada"
+                      novalidate>
+
+                    <!-- NOMBRE -->
+                    <div class="mb-3">
+                        <label class="form-label">Nombre completo</label>
+                        <input type="text"
+                               class="form-control"
+                               ng-model="cita.nombre"
+                               required>
+                    </div>
+
+                    <!-- CORREO -->
+                    <div class="mb-3">
+                        <label class="form-label">Correo electrónico</label>
+                        <input type="email"
+                               class="form-control"
+                               ng-model="cita.email"
+                               required>
+                    </div>
+
+                    <!-- TELÉFONO -->
+                    <div class="mb-3">
+                        <label class="form-label">Teléfono</label>
+                        <input type="tel"
+                               class="form-control"
+                               ng-model="cita.telefono"
+                               ng-pattern="/^[0-9]{10}$/"
+                               placeholder="Ej. 5512345678"
+                               required>
+
+                        <small class="text-danger"
+                               ng-show="formCita.telefono.$touched && formCita.telefono.$invalid">
+                            Ingresa un número válido de 10 dígitos.
+                        </small>
+                    </div>
+
+                    <!-- ESPECIALIDAD -->
+                    <div class="mb-3">
+                        <label class="form-label">Especialidad</label>
+                        <select class="form-select"
+                                ng-model="cita.especialidad"
+                                required>
+                            <option value="">Seleccione una opción</option>
+                            <option>Medicina General</option>
+                            <option>Pediatría</option>
+                            <option>Cardiología</option>
+                            <option>Nutrición</option>
+                            <option>Traumatología</option>
+                        </select>
+                    </div>
+
+                    <!-- FECHA -->
+                    <div class="mb-3">
+                        <label class="form-label">Fecha de la cita</label>
+                        <input type="date"
+                               class="form-control"
+                               ng-model="cita.fecha"
+                               min="{{ hoy }}"
+                               required>
+                    </div>
+
+                    <!-- COMENTARIOS -->
+                    <div class="mb-3">
+                        <label class="form-label">Comentarios adicionales</label>
+                        <textarea class="form-control"
+                                  rows="3"
+                                  ng-model="cita.comentarios"></textarea>
+                    </div>
+
+                    <!-- BOTÓN -->
+                    <button type="submit"
+                            class="btn btn-primary w-100"
+                            ng-disabled="formCita.$invalid">
+                        Agendar cita
+                    </button>
+
+                </form>
+
+                <!-- MENSAJE DE CONFIRMACIÓN -->
+                <div class="alert alert-success mt-4"
+                     ng-if="citaConfirmada">
+
+                    <h5 class="fw-bold">Cita registrada correctamente</h5>
+
+                    <p class="mb-1">
+                        Gracias <strong>{{ citaResumen.nombre }}</strong>,
+                        tu solicitud de cita ha sido registrada con éxito.
+                    </p>
+
+                    <p class="mb-1">
+                        <strong>Especialidad:</strong> {{ citaResumen.especialidad }}
+                    </p>
+
+                    <p class="mb-1">
+                        <strong>Fecha:</strong> {{ citaResumen.fecha | date:'longDate' }}
+                    </p>
+
+                    <p class="mb-0">
+                        En breve nos pondremos en contacto contigo para confirmar la cita.
+                    </p>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
